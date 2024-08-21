@@ -12,6 +12,8 @@
 #define CONFIG_ESPNOW_SEND_LEN 5 //questionable
 #define CONFIG_ESPNOW_CHANNEL 0
 #define CONFIG_DELAY_TIME 10
+#define CONFIG_DATA_LEN 3
+#define ESPNOW_WIFI_MODE WIFI_MODE_STA
 
 #define ESPNOW_QUEUE_SIZE 5
 
@@ -23,12 +25,10 @@ static uint8_t BROADCAST_MAC[ESP_NOW_ETH_ALEN] = {0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 
 typedef enum {
     ESPNOW_RECV_CB,
     ESPNOW_SEND_CB,
-    UART_DATA_EVENT
 }espnow_event_id_t;
 
 typedef struct {
     uint8_t type; /* BOOL Broadcast [1] or UNICAST [0]*/
-    uint16_t crc; /*checksum value (CRC16)*/
     uint8_t steps;
     uint8_t dir;
 }__attribute__((packed)) espnow_data_t;
@@ -48,7 +48,6 @@ typedef struct {
 typedef union {
     espnow_event_send_cb_t send_cb;
     espnow_event_recv_cb_t recv_cb;
-    uart_event_t uart_cb;
 }espnow_event_info_t;
 
 typedef struct {
